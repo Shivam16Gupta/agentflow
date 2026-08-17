@@ -104,6 +104,7 @@ export const PipelineUI = () => {
                 proOptions={proOptions}
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
+                ColorMode="dark"
             >
                 <Background color="#000000" gap={gridSize} />
                 <Controls />

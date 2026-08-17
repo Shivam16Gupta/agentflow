@@ -9,6 +9,9 @@ export const TextNode = ({ id, data }) => {
   const handleTextChange = (e) => {
     setCurrText(e.target.value);
     console.log(currText);
+
+    e.target.style.height = "auto";
+    e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
   const variables = useMemo(() => {
@@ -46,7 +49,7 @@ export const TextNode = ({ id, data }) => {
       <div>
         <label>
           Text:
-          <input type="text" value={currText} onChange={handleTextChange} />
+          <textarea value={currText} onChange={handleTextChange} />
         </label>
       </div>
     </BaseNode>

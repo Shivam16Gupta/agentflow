@@ -1,67 +1,50 @@
 // baseNode.js
-import { Handle,useUpdateNodeInternals } from 'reactflow';
+import { Handle, useUpdateNodeInternals } from "reactflow";
 import { useEffect } from "react";
 
-
-export const BaseNode = ({
-  id,
-  title,
-  children,
-  handles = [],
-}) => {
-
+export const BaseNode = ({ id, title, children, handles = [] }) => {
   const updateNodeIntervals = useUpdateNodeInternals();
 
-  useEffect(()=>{
+  useEffect(() => {
     updateNodeIntervals(id);
-  },[id,handles,updateNodeIntervals]);
+  }, [id, handles, updateNodeIntervals]);
 
-  let targetIndex = 0;
+  const targetCount = handles.filter(
+    (h) => h.type === "target"
+  ).length;
+
+  const height = Math.max(80,60+targetCount*30);
 
   return (
     <div
       style={{
         width: 200,
-        minHeight: 80,
-        border: '1px solid black',
+        minHeight: height,
+        border: "1px solid black",
         borderRadius: 8,
         padding: 10,
-        position: 'relative',
+        position: "relative",
       }}
     >
       <div>
         <span>{title}</span>
       </div>
 
-      <div>
-        {children}
-      </div>
+      <div>{children}</div>
 
-      {handles.map((handle) =>{ 
-        let style = {
-          ...handle.style,
-        };
-
-        if (handle.type === "target") {
-          style.top = `${40 + targetIndex * 30}px`;
-          targetIndex++;
-        }
-
-        if (handle.type === "source") {
-          style.top = "50%";
-        }
-        console.log(targetIndex);
-        return (
+      {handles.map((handle,index) => (
         <Handle
           key={handle.id}
           type={handle.type}
           position={handle.position}
           id={handle.id}
-          style={style}
+          style={
+            handle.type === "target"
+            ? {top: `${40 + index * 30}px`}
+            : {}
+          }
         />
-      );
-    }
-      )}
+      ))}
     </div>
   );
 };
